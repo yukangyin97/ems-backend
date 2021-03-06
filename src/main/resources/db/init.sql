@@ -29,3 +29,6 @@ create table employee
     address      varchar(255),
     title        varchar(255)
 );
+
+insert into employee (id, emp_id, name, surname, phone_number, address, title)
+values (1, '2021001001', 'John Doe', 'Doe', '+1(613)463-7761', '169 Lees Ave', 'Junior Full Stack Developer');
