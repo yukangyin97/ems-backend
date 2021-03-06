@@ -90,4 +90,20 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Result(500, exception.getMessage(), null);
         }
     }
+
+    @Override
+    public Result getEmployee(String empId) {
+        empId = empId.trim();
+        if (StringUtils.isEmpty(empId)) {
+            return new Result(400, "Employee Id is required", null);
+        }
+
+        Optional<Employee> existedEmployee = employeeRepository.findByEmpId(empId);
+        if (!existedEmployee.isPresent()) {
+            return new Result(404, "Employee not exist", null);
+        } else {
+            Employee employee = existedEmployee.get();
+            return new Result(200, null, employee);
+        }
+    }
 }

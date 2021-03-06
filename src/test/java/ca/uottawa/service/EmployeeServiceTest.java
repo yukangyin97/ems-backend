@@ -126,4 +126,25 @@ public class EmployeeServiceTest {
         employeeRepository.save(reservedEmployee);
     }
 
+    @Test
+    void getEmployeeTest() {
+        // scenario 1: employee's empId is not specified
+        String empId = "";
+        Result result = employeeService.getEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(400, result.getCode());
+
+        // scenario 2: employee doesn't exist
+        empId = "2021050050";
+        result = employeeService.getEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(404, result.getCode());
+
+        // scenario 3: get employee data success
+        empId = "2021001001";
+        result = employeeService.getEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(200, result.getCode());
+    }
+
 }

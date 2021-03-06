@@ -67,4 +67,18 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/api/employees/{empId}")
+    public ResponseEntity<Object> getEmployee(@PathVariable("empId") String empId) {
+        Result result = employeeService.getEmployee(empId);
+        int code = result.getCode();
+        if (code == 200) {
+            Employee employee = (Employee) result.getData();
+            return ResponseEntity.status(200).body(employee);
+        } else {
+            Map<String, String> map = new HashMap<>();
+            map.put("error", result.getMsg());
+            return ResponseEntity.status(code).body(map);
+        }
+    }
+
 }
