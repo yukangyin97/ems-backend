@@ -5,10 +5,17 @@ import ca.uottawa.repository.EmployeeRepository;
 import ca.uottawa.service.EmployeeService;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -105,5 +112,34 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = existedEmployee.get();
             return new Result(200, null, employee);
         }
+    }
+
+    @Override
+    public List<Employee> filterEmployeeBy(String empId, String name, String surname, String phoneNumber, String address, String title) {
+        return employeeRepository.findAll(new Specification<Employee>() {
+            @Override
+            public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Predicate predicate = criteriaBuilder.conjunction();
+                if (Objects.nonNull(empId) && !StringUtils.isEmpty(empId.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("empId"), empId.trim()));
+                }
+                if (Objects.nonNull(name) && !StringUtils.isEmpty(name.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), name.trim()));
+                }
+                if (Objects.nonNull(surname) && !StringUtils.isEmpty(surname.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("surname"), surname.trim()));
+                }
+                if (Objects.nonNull(phoneNumber) && !StringUtils.isEmpty(phoneNumber.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("phoneNumber"), phoneNumber.trim()));
+                }
+                if (Objects.nonNull(address) && !StringUtils.isEmpty(address.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("address"), "%" + address.trim() + "%"));
+                }
+                if (Objects.nonNull(title) && !StringUtils.isEmpty(title.trim())) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("title"), "%" + title.trim() + "%"));
+                }
+                return predicate;
+            }
+        });
     }
 }

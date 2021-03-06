@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -145,6 +146,20 @@ public class EmployeeServiceTest {
         result = employeeService.getEmployee(empId);
         System.out.println(result);
         Assertions.assertEquals(200, result.getCode());
+    }
+
+    @Test
+    void filterEmployeeTest() {
+        String empId = null;
+        String name = "";
+        String surname = "";
+        String phoneNumber = "";
+        String address = "";
+        String title = "";
+        List<Employee> employees = employeeService.filterEmployeeBy(empId, name, surname, phoneNumber, address, title);
+        for (Employee employee : employees) {
+            System.out.println(employee);
+        }
     }
 
 }
