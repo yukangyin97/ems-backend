@@ -34,7 +34,37 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Result(200, "", save);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new Result(400, exception.getMessage(), null);
+            return new Result(500, exception.getMessage(), null);
+        }
+    }
+
+    @Override
+    public Result editEmployee(Employee employee) {
+        String empId = employee.getEmpId();
+        empId = empId.trim();
+        if (StringUtils.isEmpty(empId)) {
+            return new Result(400, "Employee Id is required", null);
+        }
+
+        Optional<Employee> existedEmployee = employeeRepository.findByEmpId(empId);
+        if (!existedEmployee.isPresent()) {
+            return new Result(400, "Employee not exist", null);
+        }
+
+        // update old employee's information (keep empId unchanged)
+        Employee oldEmployee = existedEmployee.get();
+        oldEmployee.setName(employee.getName());
+        oldEmployee.setSurname(employee.getSurname());
+        oldEmployee.setPhoneNumber(employee.getPhoneNumber());
+        oldEmployee.setAddress(employee.getAddress());
+        oldEmployee.setTitle(employee.getTitle());
+
+        try {
+            Employee save = employeeRepository.save(oldEmployee);
+            return new Result(200, "", save);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return new Result(500, exception.getMessage(), null);
         }
     }
 }

@@ -5,4 +5,6 @@ import ca.uottawa.utils.Result;
 
 public interface EmployeeService {
     Result addEmployee(Employee employee);
+
+    Result editEmployee(Employee employee);
 }
