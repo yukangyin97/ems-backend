@@ -43,7 +43,7 @@ public class UserController {
             map.put("token", token);
         } else {  // code == 400
             logger.error("Error message: {}", result.getMsg());
-            map.put("msg", result.getMsg());
+            map.put("error", result.getMsg());
         }
         return ResponseEntity.status(code).body(map);
     }
