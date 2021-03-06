@@ -94,4 +94,36 @@ public class EmployeeServiceTest {
         employeeRepository.save(reservedEmployee);
     }
 
+    /**
+     * delete John Doe's data (empId: 2021001001)
+     */
+    @Test
+    void deleteEmployeeTest() {
+        // scenario 1: employee's empId is not specified
+        String empId = "";
+        Result result = employeeService.deleteEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(400, result.getCode());
+
+        // scenario 2: employee doesn't exist
+        empId = "2021050050";
+        result = employeeService.deleteEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(400, result.getCode());
+
+        // scenario 3: delete employee success
+        empId = "2021001001";
+        // reserve employee's info before deletion
+        Optional<Employee> reserved = employeeRepository.findByEmpId(empId);
+        Assertions.assertTrue(reserved.isPresent());
+        Employee reservedEmployee = reserved.get();
+
+        //delete
+        result = employeeService.deleteEmployee(empId);
+        System.out.println(result);
+        Assertions.assertEquals(200, result.getCode());
+        // recover employee's info after test
+        employeeRepository.save(reservedEmployee);
+    }
+
 }

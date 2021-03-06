@@ -5,12 +5,8 @@ import ca.uottawa.service.EmployeeService;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +49,19 @@ public class EmployeeController {
             Employee edited = (Employee) result.getData();
             return ResponseEntity.status(200).body(edited);
         } else {
+            map.put("error", result.getMsg());
+            return ResponseEntity.status(code).body(map);
+        }
+    }
+
+    @DeleteMapping("/api/employees/{empId}")
+    public ResponseEntity<Object> deleteEmployee(@PathVariable("empId") String empId) {
+        Result result = employeeService.deleteEmployee(empId);
+        int code = result.getCode();
+        if (code == 200) {
+            return ResponseEntity.status(200).body(null);
+        } else {
+            Map<String, String> map = new HashMap<>();
             map.put("error", result.getMsg());
             return ResponseEntity.status(code).body(map);
         }

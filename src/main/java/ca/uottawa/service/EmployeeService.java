@@ -7,4 +7,6 @@ public interface EmployeeService {
     Result addEmployee(Employee employee);
 
     Result editEmployee(Employee employee);
+
+    Result deleteEmployee(String empId);
 }
