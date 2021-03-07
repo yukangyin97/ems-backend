@@ -84,7 +84,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/api/employees")
-    public ResponseEntity<Object> filterEmployee(@RequestParam(required = false, name = "empId") String empId,
+    public ResponseEntity<Object> filterEmployee(@RequestParam(required = false, name = "p") Integer p,
+                                                 @RequestParam(required = false, name = "empId") String empId,
                                                  @RequestParam(required = false, name = "name") String name,
                                                  @RequestParam(required = false, name = "surname") String surname,
                                                  @RequestParam(required = false, name = "phoneNumber") String phoneNumber,
@@ -95,15 +96,15 @@ public class EmployeeController {
         Map<String, String> map = new HashMap<>();
 
         for (String query : queryMap.keySet()) {
-            if (!query.equals("empId") && !query.equals("name") && !query.equals("surname") && !query.equals("phoneNumber")
-             && !query.equals("address") && !query.equals("title")) {
+            if (!query.equals("p") && !query.equals("empId") && !query.equals("name") && !query.equals("surname") && !query.equals("phoneNumber")
+                    && !query.equals("address") && !query.equals("title")) {
                 map.put("error", "Query parameter " + query + " is not supported");
                 return ResponseEntity.status(400).body(map);
             }
         }
 
-        List<Employee> employees = employeeService.filterEmployeeBy(empId, name, surname, phoneNumber, address, title);
-        if (employees.isEmpty()) {
+        List<Employee> employees = employeeService.filterEmployeeBy(p, empId, name, surname, phoneNumber, address, title);
+        if (employees == null || employees.isEmpty()) {
             map.put("error", "No employee found");
             return ResponseEntity.status(404).body(map);
         } else {

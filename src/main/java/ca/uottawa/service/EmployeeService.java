@@ -14,5 +14,5 @@ public interface EmployeeService {
 
     Result getEmployee(String empId);
 
-    List<Employee> filterEmployeeBy(String empId, String name, String surname, String phoneNumber, String address, String title);
+    List<Employee> filterEmployeeBy(Integer page, String empId, String name, String surname, String phoneNumber, String address, String title);
 }

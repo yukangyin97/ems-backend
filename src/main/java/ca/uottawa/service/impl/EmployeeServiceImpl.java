@@ -5,6 +5,8 @@ import ca.uottawa.repository.EmployeeRepository;
 import ca.uottawa.service.EmployeeService;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -115,7 +117,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> filterEmployeeBy(String empId, String name, String surname, String phoneNumber, String address, String title) {
+    public List<Employee> filterEmployeeBy(Integer page, String empId, String name, String surname, String phoneNumber, String address, String title) {
+        if (page < 0) {
+            return null;
+        }
+        Pageable pageable = PageRequest.of(page, 5);
         return employeeRepository.findAll(new Specification<Employee>() {
             @Override
             public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -140,6 +146,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 }
                 return predicate;
             }
-        });
+        }, pageable).getContent();
     }
 }

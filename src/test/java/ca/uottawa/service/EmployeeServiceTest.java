@@ -156,7 +156,8 @@ public class EmployeeServiceTest {
         String phoneNumber = "";
         String address = "";
         String title = "";
-        List<Employee> employees = employeeService.filterEmployeeBy(empId, name, surname, phoneNumber, address, title);
+        Integer page = 0;
+        List<Employee> employees = employeeService.filterEmployeeBy(page, empId, name, surname, phoneNumber, address, title);
         for (Employee employee : employees) {
             System.out.println(employee);
         }
