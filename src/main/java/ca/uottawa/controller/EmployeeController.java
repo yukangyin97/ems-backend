@@ -4,6 +4,7 @@ import ca.uottawa.entity.Employee;
 import ca.uottawa.service.EmployeeService;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class EmployeeController {
 
     @Autowired
@@ -103,12 +105,16 @@ public class EmployeeController {
             }
         }
 
-        List<Employee> employees = employeeService.filterEmployeeBy(p, empId, name, surname, phoneNumber, address, title);
-        if (employees == null || employees.isEmpty()) {
-            map.put("error", "No employee found");
-            return ResponseEntity.status(404).body(map);
-        } else {
-            return ResponseEntity.status(200).body(employees);
-        }
+        if (p == null) p = 0;
+        Integer pageSize = 5;  // set pageSize to 5 as default
+        Page<Employee> employees = employeeService.filterEmployeeBy(empId, name, surname, phoneNumber, address, title, p, pageSize);
+        return ResponseEntity.status(200).body(employees);
+//        if (employees.getContent().isEmpty()) {
+//            map.put("error", "No employee found");
+//            return ResponseEntity.status(404).body(map);
+//        }
+//        else {
+//            return ResponseEntity.status(200).body(employees);
+//        }
     }
 }

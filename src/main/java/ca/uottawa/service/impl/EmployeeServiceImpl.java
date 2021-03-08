@@ -5,6 +5,7 @@ import ca.uottawa.repository.EmployeeRepository;
 import ca.uottawa.service.EmployeeService;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -117,26 +118,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> filterEmployeeBy(Integer page, String empId, String name, String surname, String phoneNumber, String address, String title) {
-        if (page < 0) {
-            return null;
-        }
-        Pageable pageable = PageRequest.of(page, 5);
+    public Page<Employee> filterEmployeeBy(String empId, String name, String surname, String phoneNumber, String address, String title, Integer pageNum, Integer pageSize) {
         return employeeRepository.findAll(new Specification<Employee>() {
             @Override
             public Predicate toPredicate(Root<Employee> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = criteriaBuilder.conjunction();
                 if (Objects.nonNull(empId) && !StringUtils.isEmpty(empId.trim())) {
-                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("empId"), empId.trim()));
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("empId"), "%" + empId.trim() + "%"));
                 }
                 if (Objects.nonNull(name) && !StringUtils.isEmpty(name.trim())) {
-                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), name.trim()));
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("name"), "%" + name.trim() + "%"));
                 }
                 if (Objects.nonNull(surname) && !StringUtils.isEmpty(surname.trim())) {
-                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("surname"), surname.trim()));
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("surname"), "%" + surname.trim() + "%"));
                 }
                 if (Objects.nonNull(phoneNumber) && !StringUtils.isEmpty(phoneNumber.trim())) {
-                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("phoneNumber"), phoneNumber.trim()));
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("phoneNumber"), "%" + phoneNumber.trim() + "%"));
                 }
                 if (Objects.nonNull(address) && !StringUtils.isEmpty(address.trim())) {
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("address"), "%" + address.trim() + "%"));
@@ -146,6 +143,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 }
                 return predicate;
             }
-        }, pageable).getContent();
+        }, PageRequest.of(pageNum, pageSize));
     }
 }

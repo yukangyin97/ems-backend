@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -156,11 +159,11 @@ public class EmployeeServiceTest {
         String phoneNumber = "";
         String address = "";
         String title = "";
-        Integer page = 0;
-        List<Employee> employees = employeeService.filterEmployeeBy(page, empId, name, surname, phoneNumber, address, title);
-        for (Employee employee : employees) {
-            System.out.println(employee);
-        }
+        Integer pageNum = 0;
+        Integer pageSize = 5;
+        Page<Employee> employees = employeeService.filterEmployeeBy(empId, name, surname, phoneNumber, address, title, pageNum, pageSize);
+        List<Employee> content = employees.getContent();
+        Assertions.assertFalse(content.isEmpty());
     }
 
 }
