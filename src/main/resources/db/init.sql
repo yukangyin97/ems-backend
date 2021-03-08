@@ -14,10 +14,10 @@ create table user
 );
 
 insert into user (id, username, password)
-values (1, 'admin1', '123456');
+values (1, 'admin1', 'e10adc3949ba59abbe56e057f20f883e');
 
 insert into user (id, username, password)
-values (2, 'admin2', '123456');
+values (2, 'admin2', 'e10adc3949ba59abbe56e057f20f883e');
 
 create table employee
 (

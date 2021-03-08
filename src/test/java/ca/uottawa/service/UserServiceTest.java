@@ -1,6 +1,5 @@
 package ca.uottawa.service;
 
-import ca.uottawa.entity.User;
 import ca.uottawa.repository.UserRepository;
 import ca.uottawa.utils.Result;
 import org.junit.jupiter.api.Assertions;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -37,5 +35,4 @@ public class UserServiceTest {
         result = userService.login(username, password);
         Assertions.assertEquals(400, result.getCode());
     }
-
 }

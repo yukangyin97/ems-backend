@@ -3,6 +3,7 @@ package ca.uottawa.service.impl;
 import ca.uottawa.entity.User;
 import ca.uottawa.repository.UserRepository;
 import ca.uottawa.service.UserService;
+import ca.uottawa.utils.EncryptionUtil;
 import ca.uottawa.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ public class UserServiceImpl implements UserService {
             return new Result(400, "Password is required", null);
         }
 
-        Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
+        String encryptedPassword = EncryptionUtil.encrypt(password);
+        Optional<User> user = userRepository.findByUsernameAndPassword(username, encryptedPassword);
         if (!user.isPresent()) {
             return new Result(400, "Wrong Credentials", null);
         }
