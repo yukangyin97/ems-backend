@@ -12,6 +12,9 @@ import java.util.Map;
 public class JWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
         String token = request.getHeader("auth-token");  // get jwt token from request header
 
         try {
