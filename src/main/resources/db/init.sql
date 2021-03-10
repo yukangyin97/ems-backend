@@ -82,8 +82,7 @@ INSERT INTO ems.employee (id, emp_id, name, surname, phone_number, address, titl
 VALUES (23, '2021002022', 'Mike Williamson', 'Williamson', '+1-613-555-0117', '1914 Tchesinkut Lake Rd',
         'Backend Engineer');
 INSERT INTO ems.employee (id, emp_id, name, surname, phone_number, address, title)
-VALUES (24, '2021002023', 'Damari Mccarthy
-', 'Mccarthy', '+1-613-555-0158', '3282 99th St', 'Frontend Developer');
+VALUES (24, '2021002023', 'Damari Mccarthy', 'Mccarthy', '+1-613-555-0158', '3282 99th St', 'Frontend Developer');
 INSERT INTO ems.employee (id, emp_id, name, surname, phone_number, address, title)
 VALUES (25, '2021002024', 'Maya Middleton', 'Middleton', '+1-613-555-0113', '3533 Barrydowne Road',
         'Frontend Engineer');
