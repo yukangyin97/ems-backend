@@ -141,6 +141,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 if (Objects.nonNull(title) && !StringUtils.isEmpty(title.trim())) {
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("title"), "%" + title.trim() + "%"));
                 }
+                criteriaQuery.orderBy(criteriaBuilder.asc(root.get("empId")));
                 return predicate;
             }
         }, PageRequest.of(pageNum, pageSize));
