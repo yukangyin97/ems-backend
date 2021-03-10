@@ -2,7 +2,7 @@
 
 > This repository is the backend service of Employee Management System (EMS)
 > 
-> For frontend service, please visit https://github.com/YuKangYin1997/BrightZone-Frontend
+> For frontend service, please visit https://github.com/YuKangYin1997/ems-frontend
 
 ## Features
 
@@ -49,6 +49,20 @@
    
 7. filter employee by name and title
    ![filterEmployeeByNameAndTitle](src/main/resources/repo/filterEmployeeByNameAndTitle.png)
-   
-8. logout
+
+8. filter employee by page
+   ![filterEmployeeByPage](src/main/resources/repo/filterEmployeeByPage.png)
+  
+9. logout
    ![logout](src/main/resources/repo/logout.png)
+ 
+  
+## Unit Test
+
+> Unit tests are located at `src/test/java/ca/uottawa/service`
+
+1. All test cases pass
+   ![allTestCasesPass](src/main/resources/repo/allTestCasesPass.png)
+   
+2. Test Coverage
+   ![testCoverage](src/main/resources/repo/testCoverage.png)
